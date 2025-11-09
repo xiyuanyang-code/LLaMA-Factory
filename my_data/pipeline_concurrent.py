@@ -152,5 +152,22 @@ def test_calling():
     )
     print(response)
 
+def get_file_data(line: str):
+    line_data = json.loads(line)
+    return {
+        "instruction": "Solving the problems below, remember to draft a planning in chinese, and then finish your sub-tasks step-by-step",
+        "input": line_data["instruction"]["prompt"],
+        "output": line_data["output"]
+    }
+
+def get_json_file_path():
+    file_path = "./data/planning_coding.jsonl"
+    with open(file_path, "r", encoding="utf-8") as file:
+        data = [get_file_data(line=line) for line in file]
+    with open("./data/planning_coding.json", "w", encoding="utf-8") as file:
+        json.dump(data, file, ensure_ascii=False, indent=2)
+    
+
 if __name__ == "__main__":
-    main()
+    # main()
+    get_json_file_path()
